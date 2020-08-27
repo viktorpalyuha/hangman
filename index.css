@@ -2,7 +2,7 @@
     float: left;
 }
 
-div {
+.container {
     height: 500px;
     display: flex;
     align-items: center;

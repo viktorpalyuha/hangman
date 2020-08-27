@@ -63,27 +63,6 @@ function startGame() {
     answerArray.push("_");
   }
   answer.innerHTML = answerArray.join(" ");
-
-  //   while (remainingLetters > 0 && remainingAttempts > 0) {
-  //     alert(answerArray.join(" "));
-  //     let guess = prompt("Guess a letter or press Cancel to exit the game");
-  //     if (guess === null) {
-  //       alert("See you :)");
-  //       return;
-  //     } else if (guess.length !== 1) {
-  //       alert("Please, enter only one letter");
-  //     } else if (randomWord.includes(guess.toLowerCase())) {
-  //       for (let i = 0; i < randomWord.length; i++) {
-  //         if (randomWord[i] === guess.toLowerCase()) {
-  //           answerArray[i] = guess.toLowerCase();
-  //           remainingLetters--;
-  //         }
-  //       }
-  //     } else {
-  //       remainingAttempts--;
-  //       hangingMan[remainingAttempts]();
-  //     }
-  //   }
 }
 
 function checkGuess(guess) {
@@ -107,8 +86,12 @@ function checkGuess(guess) {
   if (remainingLetters === 0) {
     alert(answerArray.join(" "));
     alert("Great! The guessed word is " + randomWord);
+    guess.remove();
+    button.remove();
   } else if (remainingAttempts === 0) {
     alert("You lost :(");
+    guess.remove();
+    button.remove();
   }
 }
 
