@@ -1,4 +1,8 @@
-let words = ["beautiful", "fish", "tea", "spoon"];
+let guess = document.querySelector(".guess");
+let button = document.querySelector("button");
+let answer = document.querySelector(".answer");
+let attempts = document.querySelector(".attempts");
+let words = ["cat", "fish", "rabbit", "rat"];
 let randomWord = words[Math.floor(Math.random() * words.length)];
 let remainingLetters = randomWord.length;
 let remainingAttempts = 6;
@@ -58,34 +62,63 @@ function startGame() {
   for (let i = 0; i < randomWord.length; i++) {
     answerArray.push("_");
   }
+  answer.innerHTML = answerArray.join(" ");
 
-  while (remainingLetters > 0 && remainingAttempts > 0) {
-    alert(answerArray.join(" "));
-    let guess = prompt("Guess a letter or press Cancel to exit the game");
-    if (guess === null) {
-      alert("See you :)");
-      break;
-    } else if (guess.length !== 1) {
-      alert("Please, enter only one letter");
-    } else if (randomWord.includes(guess.toLowerCase())) {
-      for (let i = 0; i < randomWord.length; i++) {
-        if (randomWord[i] === guess.toLowerCase()) {
-          answerArray[i] = guess.toLowerCase();
-          remainingLetters--;
-        }
+  //   while (remainingLetters > 0 && remainingAttempts > 0) {
+  //     alert(answerArray.join(" "));
+  //     let guess = prompt("Guess a letter or press Cancel to exit the game");
+  //     if (guess === null) {
+  //       alert("See you :)");
+  //       return;
+  //     } else if (guess.length !== 1) {
+  //       alert("Please, enter only one letter");
+  //     } else if (randomWord.includes(guess.toLowerCase())) {
+  //       for (let i = 0; i < randomWord.length; i++) {
+  //         if (randomWord[i] === guess.toLowerCase()) {
+  //           answerArray[i] = guess.toLowerCase();
+  //           remainingLetters--;
+  //         }
+  //       }
+  //     } else {
+  //       remainingAttempts--;
+  //       hangingMan[remainingAttempts]();
+  //     }
+  //   }
+}
+
+function checkGuess(guess) {
+  if (guess.value.length !== 1) {
+    alert("Please, enter only one letter");
+  } else if (randomWord.includes(guess.value.toLowerCase())) {
+    for (let i = 0; i < randomWord.length; i++) {
+      if (randomWord[i] === guess.value.toLowerCase()) {
+        answerArray[i] = guess.value.toLowerCase();
+        answer.innerHTML = answerArray.join(" ");
+        remainingLetters--;
       }
-    } else {
-      remainingAttempts--;
-      hangingMan[remainingAttempts]();
     }
+  } else {
+    remainingAttempts--;
+    hangingMan[remainingAttempts]();
   }
+
+  guess.value = "";
 
   if (remainingLetters === 0) {
     alert(answerArray.join(" "));
     alert("Great! The guessed word is " + randomWord);
+  } else if (remainingAttempts === 0) {
+    alert("You lost :(");
   }
 }
 
-setTimeout(() => {
-  startGame();
-}, 0);
+button.addEventListener("click", () => {
+  checkGuess(guess);
+});
+guess.addEventListener("keyup", () => {
+  if (event.keyCode === 13) {
+    event.preventDefault;
+    checkGuess(guess);
+  }
+});
+startGame();
