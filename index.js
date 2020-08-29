@@ -3,7 +3,7 @@ let button = document.querySelector("button");
 let answer = document.querySelector(".answer");
 let attempts = document.querySelector(".attempts");
 let words = ["cat", "fish", "rabbit", "rat"];
-let randomWord = words[Math.floor(Math.random() * words.length)];
+let randomWord = words[Math.floor(Math.random() * words.length)].split("");
 let remainingLetters = randomWord.length;
 let remainingAttempts = 6;
 let answerArray = [];
@@ -76,6 +76,8 @@ function checkGuess(guess) {
         remainingLetters--;
       }
     }
+    randomWord = randomWord.map((item, i) => item === guess.value.toLowerCase() ? "" : item);
+    console.log(randomWord);
   } else {
     remainingAttempts--;
     hangingMan[remainingAttempts]();
@@ -84,24 +86,26 @@ function checkGuess(guess) {
   guess.value = "";
 
   if (remainingLetters === 0) {
-    alert(answerArray.join(" "));
-    alert("Great! The guessed word is " + randomWord);
+    setTimeout(() => {
+      alert(answerArray.join(" "));
+      alert("Great! Your guess was correct");
+    }, 0);
     guess.remove();
     button.remove();
   } else if (remainingAttempts === 0) {
-    alert("You lost :(");
+    setTimeout(() => alert("You lost :("), 0);
     guess.remove();
     button.remove();
   }
 }
 
-button.addEventListener("click", () => {
-  checkGuess(guess);
-});
+button.addEventListener("click", () => checkGuess(guess));
+
 guess.addEventListener("keyup", () => {
   if (event.keyCode === 13) {
     event.preventDefault;
     checkGuess(guess);
   }
 });
+
 startGame();
